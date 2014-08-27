@@ -63,6 +63,14 @@
   unsigned int RCSwitch::timings[RCSWITCH_MAX_CHANGES];
   int RCSwitch::nReceiveTolerance = 60;
 
+  int chacon_pulselength = 275;
+  int chacon_send1 = 5; //310 * 4.32 ~= 1340
+  int chacon_send0 = 1; //310 * 1 = 310
+  int chacon_lockseq1 = 1; // 310 * 0.887 ~= 275
+  int chacon_lockseq2 = 36; // 310 * 31.935 = 9900
+  int chacon_lockseq3 = 1;// 310 * 0.887 ~= 275
+  int chacon_lockseq4 = 10; // 310 * 8.629 ~= 2675
+
   RCSwitch::RCSwitch() {
     this->nReceiverInterrupt = -1;
     this->nTransmitterPin = -1;
@@ -88,7 +96,7 @@
     this->setPulseLength(100);
   }
   else if (nProtocol == CHACON) {
-    this->setPulseLength(275);
+    this->setPulseLength(chacon_pulselength);
   }
   else if (nProtocol == VENUS) {
     this->setPulseLength(235);
@@ -359,7 +367,7 @@ void RCSwitch::send(unsigned long remote, unsigned long button, boolean onoff){
   setRepeatTransmit(1);
 
   char* remote_bin = this->dec2binWzerofill(remote, 26);
-  char* button_bin = this->dec2binWzerofill2(button, 4);
+  char* button_bin = this->dec2binWzerofill2(button, 4);//Dirty hack
   //Serial.println(this->dec2binWzerofill(remote, 26));
 //char* remote_bin = (this->dec2binWcharfill(remote, 26, '0'));
 //char* button_bin = (this->dec2binWcharfill(button, 4, '0'));
@@ -367,9 +375,9 @@ void RCSwitch::send(unsigned long remote, unsigned long button, boolean onoff){
   //Serial.println(button_bin);
   //Set Protocol to Home Easy (Chacon/DIO) 
   //Latch1
-  this->transmit(1,36);
+  this->transmit(chacon_lockseq1,chacon_lockseq2);
   //Latch2
-  this->transmit(1,10);
+  this->transmit(chacon_lockseq3,chacon_lockseq4);
   digitalWrite(this->nTransmitterPin, HIGH);
   
   //Remote (Recipient Code)
@@ -472,7 +480,7 @@ void RCSwitch::transmit(int nHighPulses, int nLowPulses) {
         this->transmit(4,11);
     }
   else if (this->nProtocol == CHACON){
-    this->transmit(1,1);
+    this->transmit(chacon_send0,chacon_send0);
   }
   else if (this->nProtocol == VENUS) {
     this->transmit(2.52,5.70);
@@ -497,7 +505,7 @@ void RCSwitch::transmit(int nHighPulses, int nLowPulses) {
     this->transmit(9,6);
   }
   else if (this->nProtocol == CHACON) {
-    this->transmit(1,5);
+    this->transmit(chacon_send0,chacon_send1);
   }
    else if (this->nProtocol == VENUS) {
     this->transmit(6.914,1);

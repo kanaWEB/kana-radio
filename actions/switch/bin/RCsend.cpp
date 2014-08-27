@@ -1,16 +1,16 @@
 /*
+RCsend send 433 radio codes
+It is based on a port of RCSwitch and HomeEasy
 
-RFsend hacked from codesend by Sarrailh Remi
+Repo Github
+https://github.com/maditnerd/UltimateRCswitch
 
- 'codesend' hacked from 'send' by @justy
- 
- - The provided rc_switch 'send' command uses the form systemCode, unitCode, command
-   which is not suitable for our purposes.  Instead, we call 
-   send(code, length); // where length is always 24 and code is simply the code
-   we find using the RF_sniffer.ino Arduino sketch.
 
- Usage: ./RFsend transmitterPin decimalcode
- (Use RF_Sniffer.ino to check that RF signals are being produced by the RPi's transmitter)
+Usage (RCswitch)   : RCsend GPIO Protocol:Code
+Usage (chacon)     : RCsend GPIO Protocol:Remote:Button:Switch
+Exemple (RCswitch) : RCsend 0 1:1234
+Exemple (Chacon)   : RCsend 0 4:1234:1:1
+
  */
 
 #include "RCSwitch.h"
@@ -51,9 +51,9 @@ RFsend hacked from codesend by Sarrailh Remi
     vector<string> code_array = explode(":",code_string);
 
 
-    for(int i=0; i<code_array.size(); i++){
-      cout <<i << " ["<< code_array[i] <<"] " <<endl;
-    }
+    //for(int i=0; i<code_array.size(); i++){
+    //  cout <<i << " ["<< code_array[i] <<"] " <<endl;
+    //}
 
 
 
@@ -87,14 +87,16 @@ if(protocol == CHACON){
   button = atoi(code_array[2].c_str());
   onoff = atoi(code_array[3].c_str());
 
-  printf("HE DEVICE:%ld BUTTON:%i STATE:%i\n",device,button,onoff);
-  radio.send(device, button,onoff);
+  printf("Home Easy ---- Remote:%ld Button:%i State:%i\n",device,button,onoff);
+  radio.send(device, button, onoff);
   delay(100);
-  radio.send(device,button,onoff);
+  radio.send(device, button, onoff);
+  delay(100);
+  radio.send(device, button, onoff);
 }
 else{
   code = atol(code_array[1].c_str());
-  printf("RCSWITCH PROTOCOL:%i CODE:%ld\n",protocol,code);
+  printf("RCSWITCH ---- Protocol:%i Code:%ld\n",protocol,code);
   //Calculate size of Binary Message
   if (code > 256)
   {
@@ -110,11 +112,12 @@ else{
   }
 
   radio.setProtocol(protocol);
-  radio.send(code, bits);
-  if(protocol == VENUS){
+  if(protocol == 5){
+    radio.send(code, bits);
     delay(100);
-    radio.send(code,bits);
+    radio.send(code, bits);
   }
+  radio.send(code, bits);
 }
 
 
@@ -122,7 +125,11 @@ else{
 
 
 else {
- printf("NOT ENOUGH ARGUMENTS\n");
+ printf("Not enought arguments\n");
+ printf("Usage: RCsend GPIO Protocol:Code \n");
+ printf("Usage: RCsend GPIO Protocol:Remote:Button:Switch \n");
+ printf("Example (RCswitch): RCsend 0 1:1234 \n");
+ printf("Example (Chacon): RCsend 0 4:1234:1:1 \n");
 }
 
 return 0;
