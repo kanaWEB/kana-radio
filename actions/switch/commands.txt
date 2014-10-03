@@ -1,1 +1,1 @@
-bin/RCsend [gpio_tx] [code]
+bin/RCsend [@gpio_tx] [code]

@@ -58,6 +58,7 @@ Exemple (Chacon)   : RCsend 0 4:1234:1:1
 
 
     if (wiringPiSetup () == -1) return 13;
+    piHiPri(99);
     RCSwitch radio = RCSwitch();
     radio.enableTransmit(PIN);
 
