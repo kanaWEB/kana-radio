@@ -180,14 +180,23 @@ else{
 //Check if a code has a triggers
 	$db_triggers = new Entity("Triggers");
 	$trigger = $db_triggers->load([
-		"code" => $data
+		"code" => $data,
+		"trigger" => "one"
 		]);
+
+	$alltrigger = $db_triggers->load([
+		"trigger" => "all"
+		]);
+
+	//@to refactor
 
 	if($data == $trigger["code"]){
 		$db_scenario = new Entity("Scenario");
 		$scenario = $db_scenario->load([
 			"id_trigger" => $trigger["id"]
 			]);
+
+		
 		if($scenario){
 			$timeout_time = $trigger["timestamp"] + $trigger["timeout"];
 			$time = $_["time"];
@@ -198,6 +207,26 @@ else{
 			}
 		}
 	}
+
+	if($alltrigger){
+		$db_scenario = new Entity("Scenario");
+		$scenario = $db_scenario->load([
+			"id_trigger" => $alltrigger["id"]
+			]);
+
+		if($scenario){
+			$timeout_time = $alltrigger["timestamp"] + $alltrigger["timeout"];
+			$time = $_["time"];
+			echo $timeout_time - $time;
+			if($timeout_time < $time){
+			$db_triggers->change(array('timestamp'=>$time),array('id'=>$alltrigger["id"]));
+			Functions::launch_background("./action.py '".$scenario["action_tag"]."'");
+			}
+		}
+	}
+
+
+
 
 }
 

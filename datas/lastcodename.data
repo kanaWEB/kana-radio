@@ -1,0 +1,25 @@
+<?php
+#@# name:Last radio code | exemple:A1 ON | plugin:radio
+//We generate a table to store datas
+	$table = "/etc/kana/datas/radio.db";
+	//echo $_["data"];
+//We save the data with a timestamp
+	$db_fields = array(
+		"data" => "text",
+		"timestamp" => "int"
+		);
+	$data_db = new Entity("radio",$db_fields,$table,false);
+	$data_list = $data_db->populate();
+	$radiocode = $data_list[count($data_list)-1]["data"];
+	$radiocodename_db = new Entity("radio");
+	$radiocodename = $radiocodename_db->load([
+		"code" => $radiocode
+		]);
+	if($radiocodename){
+		$data = $radiocodename["object_name"];
+	}
+	else
+	{
+		$data = $radiocode;
+	}
+?>
