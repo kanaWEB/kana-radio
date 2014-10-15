@@ -152,81 +152,15 @@ if(strlen($collected) == 12){
 }
 
 else{
-	$data =	$_["data"]; //Get data
-	$type = $_["type"]; //Get object name
 
-	//We save the data with a timestamp
-	$db_fields = array(
-		"data" => "text",
-		"timestamp" => "int"
-		);
+$data =	$_["data"]; //Get data
+$type = $_["type"]; //Get object name
+if(isset($_["time"])){
+	$time = $_["time"];
+}
 
-	//We generate a table to store datas
-	$table = "/etc/kana/datas/".$type.".db";
-	//echo $_["data"];
-
-	$data_db = new Entity($type,$db_fields,$table,false);
-	$count_data = $data_db->rowCount();
-	
-	//We don't want to store to much codes so we reset the table every 10 recorded codes
-	if($count_data > 10){
-		$data_db->drop();
-		$data_db = new Entity($type,$db_fields,$table,false);
-	}
-	$data_db->setData($data);
-	$data_db->setTimestamp(time());
-	$data_db->save();
-
-//Check if a code has a triggers
-	$db_triggers = new Entity("Triggers");
-	$trigger = $db_triggers->load([
-		"code" => $data,
-		"trigger" => "one"
-		]);
-
-	$alltrigger = $db_triggers->load([
-		"trigger" => "all"
-		]);
-
-	//@to refactor
-
-	if($data == $trigger["code"]){
-		$db_scenario = new Entity("Scenario");
-		$scenario = $db_scenario->load([
-			"id_trigger" => $trigger["id"]
-			]);
-
-		
-		if($scenario){
-			$timeout_time = $trigger["timestamp"] + $trigger["timeout"];
-			$time = $_["time"];
-			echo $timeout_time - $time;
-			if($timeout_time < $time){
-			$db_triggers->change(array('timestamp'=>$time),array('id'=>$trigger["id"]));
-			Functions::launch_background("./action.py '".$scenario["action_tag"]."'");
-			}
-		}
-	}
-
-	if($alltrigger){
-		$db_scenario = new Entity("Scenario");
-		$scenario = $db_scenario->load([
-			"id_trigger" => $alltrigger["id"]
-			]);
-
-		if($scenario){
-			$timeout_time = $alltrigger["timestamp"] + $alltrigger["timeout"];
-			$time = $_["time"];
-			echo $timeout_time - $time;
-			if($timeout_time < $time){
-			$db_triggers->change(array('timestamp'=>$time),array('id'=>$alltrigger["id"]));
-			Functions::launch_background("./action.py '".$scenario["action_tag"]."'");
-			}
-		}
-	}
-
-
-
+Data::save_data($data,$type);
+Data::check_triggers($data,$type,$time);
 
 }
 

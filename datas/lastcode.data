@@ -1,7 +1,7 @@
 <?php
 #@# name:Last radio code | exemple:1234 | plugin:radio
 //We generate a table to store datas
-	$table = "/etc/kana/datas/radio.db";
+	$table = "/etc/kana/data/radio.db";
 	//echo $_["data"];
 //We save the data with a timestamp
 	$db_fields = array(
@@ -11,5 +11,9 @@
 	$data_db = new Entity("radio",$db_fields,$table,false);
 	$data_list = $data_db->populate();
 	$data = $data_list[count($data_list)-1]["data"];
+
+if(isset($_["data_id"])){
+	echo $data;
+}
 
 ?>

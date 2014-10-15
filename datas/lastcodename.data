@@ -1,7 +1,7 @@
 <?php
 #@# name:Last radio code | exemple:A1 ON | plugin:radio
 //We generate a table to store datas
-	$table = "/etc/kana/datas/radio.db";
+	$table = "/etc/kana/data/radio.db";
 	//echo $_["data"];
 //We save the data with a timestamp
 	$db_fields = array(
