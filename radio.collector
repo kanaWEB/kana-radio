@@ -44,7 +44,7 @@ if(strlen($collected) == 12){
 		if(!$sign){$temp_data = -$temp_data;}
 		$time_to_pool = 10;
 
-		if(!file_exists("/etc/kana/datas/temp.rrd")){
+		if(!file_exists("/etc/kana/data/temp.rrd")){
 
 			$step = $time_to_pool * 60;
 			$heartbeat = $step * 2;
@@ -109,12 +109,12 @@ if(strlen($collected) == 12){
 				"RRA:MAX:".$xff.":144:1500",
 				"RRA:MAX:".$xff.":288:2000"
 				);
-			$out = rrd_create("/etc/kana/datas/temp.rrd",$opts);
+			$out = rrd_create("/etc/kana/data/temp.rrd",$opts);
 
 		}
 		$time = time();
 		$time = Functions::timestamp_nearest_minutes($time_to_pool);
-		$output_update = shell_exec('rrdtool updatev "/etc/kana/datas/temp.rrd" '.$time.':'.$temp_data." 2>&1");
+		$output_update = shell_exec('rrdtool updatev "/etc/kana/data/temp.rrd" '.$time.':'.$temp_data." 2>&1");
 		
 		$output_update_array = explode(":",$output_update);
 		$iserror = $output_update_array[0];
@@ -122,7 +122,7 @@ if(strlen($collected) == 12){
 		$error_array = explode(" ",$error);
 		
 		if($error_array[1] == "illegal"){
-			$actual_temp =  shell_exec('rrdtool lastupdate /etc/kana/datas/temp.rrd');
+			$actual_temp =  shell_exec('rrdtool lastupdate /etc/kana/data/temp.rrd');
 			$lasttemp_data = explode(":",$actual_temp);
 			$error = "Data was already saved at this time:".$lasttemp_data[1]."\n";
 		}
@@ -137,7 +137,7 @@ if(strlen($collected) == 12){
 			$log_update = $output_update."Value ".$temp_data." was saved at ".date('H:i:s d-m-Y ')." ".$time."\n";
 		}
 
-		$file = "/etc/kana/datas/temp.log";
+		$file = "/etc/kana/data/temp.log";
 		$current = file_get_contents($file);
 		$current .= $log_update;
 		file_put_contents($file,$current);
@@ -159,7 +159,7 @@ if(isset($_["time"])){
 	$time = $_["time"];
 }
 
-Data::save_data($data,$type);
+Data::save_data($data,$type,$time);
 Data::check_triggers($data,$type,$time);
 
 }

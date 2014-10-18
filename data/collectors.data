@@ -1,7 +1,7 @@
 <?php
 //You can add collectors here
-unset($datas);
-$datas[] = [
+unset($data);
+$data[] = [
 	"text" => "Serial",
 	"value" => "serial"
 ];

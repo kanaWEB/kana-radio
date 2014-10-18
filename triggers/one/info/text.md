@@ -1,1 +1,1 @@
-Radio: One code
+One radio code
