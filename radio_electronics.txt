@@ -1,5 +1,0 @@
-//Basic 433Mhz Electronics Object 1.0
-gpio_tx:int
-serial_rx:text
-serial_speed:text
-collector:text

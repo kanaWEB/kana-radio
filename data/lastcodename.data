@@ -8,15 +8,15 @@
 		"data" => "text",
 		"timestamp" => "int"
 		);
-	$data_db = new Entity("radio",$db_fields,$table,false);
+	$data_db = new Entity("data","radio");
 	$data_list = $data_db->populate();
 	$radiocode = $data_list[count($data_list)-1]["data"];
-	$radiocodename_db = new Entity("radio");
+	$radiocodename_db = new Entity("config","radio");
 	$radiocodename = $radiocodename_db->load([
 		"code" => $radiocode
 		]);
 	if($radiocodename){
-		$data = $radiocodename["object_name"];
+		$data = $radiocodename["entity_name"];
 	}
 	else
 	{

@@ -1,0 +1,1 @@
+objects,radio,433mhz,rcswitch,chacon,dio,scs,power outlets,home automation,remote,collector,trigger
