@@ -1,0 +1,14 @@
+{
+	"default": {
+		"command": "RCsend",
+		"usage" : "RCsend gpio(WiringPi) code",
+		"args": {
+			"gpio_tx": {
+				"type": "Config"
+			},
+			"code": {
+				"type": "Code"
+			}
+		}
+	}
+}

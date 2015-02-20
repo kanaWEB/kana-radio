@@ -1,0 +1,19 @@
+{
+   "description" : "Contrôler les prises électriques / Plafonnier / Arduinos avec un émetteur radio 433Mhz, Recevoir des codes radios depuis des capteurs / télécommandes / arduinos",
+   "name" : "Radio 433/315Mhz",
+   "tags" : {
+      "object" : {},
+      "radio" : {},
+      "433mhz" : {},
+      "rcswitch" : {},
+      "chacon" : {},
+      "dio" : {},
+      "scs" : {},
+      "power outlets" : {},
+      "home automation" : {},
+      "remote" : {},
+      "collector" : {},
+      "trigger" : {}
+   },
+   "type" : "remote"
+}
