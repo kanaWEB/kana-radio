@@ -1,5 +1,5 @@
 {
-   "description" : "Contrôler les prises électriques,Plafonnier,Arduinos avec un émetteur radio 433Mhz, Recevoir des codes radios depuis des capteurs,télécommandes,arduinos",
+   "description" : "Recevoir et Envoyer des codes radios de capteurs,télécommandes,arduinos en 433Mhz",
    "name" : "Radio 433/315Mhz",
    "tags" : {
       "object" : {},
