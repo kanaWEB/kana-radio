@@ -1,6 +1,6 @@
 {
-   "description" : "Control Power Switch / Ceiling Lamp / Arduinos with radio 433Mhz transmitter
-Receive radios codes from sensors / remotes / arduinos",
+   "description" : "Control Power Switch,Ceiling Lamp,Arduinos with radio 433Mhz transmitter
+Receive radios codes from sensors,remotes,arduinos",
    "name" : "Radio 433/315Mhz",
    "tags" : {
       "object" : {},
