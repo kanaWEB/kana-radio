@@ -1,19 +1,19 @@
 {
    "description" : "Recevoir et Envoyer des codes radios de capteurs,télécommandes,arduinos en 433Mhz",
    "name" : "Radio 433/315Mhz",
-   "tags" : {
-      "object" : {},
-      "radio" : {},
-      "433mhz" : {},
-      "rcswitch" : {},
-      "chacon" : {},
-      "dio" : {},
-      "scs" : {},
-      "power outlets" : {},
-      "home automation" : {},
-      "remote" : {},
-      "collector" : {},
-      "trigger" : {}
-   },
+   "tags" : [
+      "object",
+      "radio",
+      "433mhz",
+      "rcswitch",
+      "chacon",
+      "dio",
+      "scs",
+      "power outlets",
+      "home automation",
+      "remote",
+      "collector",
+      "trigger"
+   ],
    "type" : "remote"
 }

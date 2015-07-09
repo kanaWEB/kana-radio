@@ -1,76 +1,69 @@
 <?php
-$data =	$_["data"]; //Get data
-$type = $_["type"]; //Get object name
+//$data = $_['data']; //Get data
+//$type = $_['type']; //Get object name
 
-if(isset($_["data"]) && isset($_["type"])){
-
-	if(isset($_["time"])){
-		$time = $_["time"];
-	}
-	else{
-		$time = time();
-	}
+if (isset($data) && isset($type)) {
+    if (isset($_['time'])) {
+        $time = $_['time'];
+    } else {
+        $time = time();
+    }
 //Save MAXDATA times data whatever
-	Data::save_data("",$data,$type,$time,"",MAXDATA);
+    Data::saveData('', $data, $type, $time, '', MAXDATA);
 
 //Detect Sensor
-	if($data[0] == "T"){
-		$vw_data = explode(",",$data);
-		if(count($vw_data) > 1){
-			foreach($vw_data as $info){
-				$info_value = substr($info,0,2);
-			//var_dump($info_value); 
-				if($info_value == "T:"){
-					$sensor["id"] = substr($info,2);
-				}
+    if ($data[0] == 'T') {
+        $vw_data = explode(',', $data);
+        if (count($vw_data) > 1) {
+            foreach ($vw_data as $info) {
+                $info_value = substr($info, 0, 2);
+            //var_dump($info_value);
+                if ($info_value == 'T:') {
+                    $sensor['id'] = substr($info, 2);
+                }
 
-				if($info_value == "V:"){
-					$sensor["value"] = substr($info,2);
-				}
+                if ($info_value == 'V:') {
+                    $sensor['value'] = substr($info, 2);
+                }
 
-				if($info_value == "B:"){
-					$sensor["battery"] = substr($info,2);
-				}
-			}
+                if ($info_value == 'B:') {
+                    $sensor['battery'] = substr($info, 2);
+                }
+            }
 
-			if(count($sensor) > 1){
-				if(!isset($sensor["battery"]) && count($sensor) > 1){
-					$sensor["battery"] = "ON";
-				}
-			}
-			else{
-				unset($sensor);
-			}
-		}
-	}
+            if (count($sensor) > 1) {
+                if (!isset($sensor['battery']) && count($sensor) > 1) {
+                    $sensor['battery'] = 'ON';
+                }
+            } else {
+                unset($sensor);
+            }
+        }
+    }
 
-	//If a sensor is detected
-	if(isset($sensor)){
-		$sensor_info = Data::check_sensor($sensor,$time); //Check if sensor exists
-		
-		//var_dump($sensor_info);
-		//var_dump($sensor);
+    //If a sensor is detected
+    if (isset($sensor)) {
+        $sensor_info = Data::checkSensor($sensor, $time); //Check if sensor exists
 
-		if($sensor_info["sensor_save"] == "1"){
+        //var_dump($sensor_info);
+        //var_dump($sensor);
 
-			$db_available = Data::db_available($sensor_info["sensor_type"]);
-		//var_dump($db_available);
-			if($db_available){
-		//We doesn't manage more than one way to save data for now.
+        if ($sensor_info['sensor_save'] == '1') {
+            $dbAvailable = Data::dbAvailable($sensor_info['sensor_type']);
+        //var_dump($dbAvailable);
+            if ($dbAvailable) {
+                //We doesn't manage more than one way to save data for now.
 
-				if($db_available[0] == "rrd.md"){
-					echo "OK RRD!\n";
-					require_once("core/schema/RRDKana.class.php");
-					$rrd_db = new RRDKana($sensor_info["sensor_type"],$sensor["id"]);
-					$rrd_db->update($sensor["value"]);
-				}
-			}
-		}
-	}
+                if ($dbAvailable[0] == 'rrd.md') {
+                    echo "OK RRD!\n";
+                    require_once 'core/schema/RRDKana.class.php';
+                    $rrd_db = new RRDKana($sensor_info['sensor_type'], $sensor['id']);
+                    $rrd_db->update($sensor['value']);
+                }
+            }
+        }
+    }
 
-	//Check for triggers
-	Data::check_triggers($data,$type,$time);
+    //Check for triggers
+    Data::checkTriggers($data, $type, $time);
 }
-
-?>
-
