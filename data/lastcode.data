@@ -1,19 +1,25 @@
 <?php
 #@# name:Last radio code | example:1234 | plugin:radio
 //We generate a table to store data
-	$table = "/etc/kana/data/radio.db";
-	//echo $_["data"];
+#$table = "/etc/kana/data/radio.db";
+    //echo $_["data"];
 //We save the data with a timestamp
-	$db_fields = array(
-		"data" => "text",
-		"timestamp" => "int"
-		);
-	$data_db = new Entity("data","radio");
-	$data_list = $data_db->populate();
-	$data = $data_list[count($data_list)-1]["data"];
+$db_fields = array(
+    "data" => "text",
+    "timestamp" => "int"
+);
 
-if(isset($_["data_id"])){
-	echo $data;
+//Check /user/data/kana/radio.db
+$data_db = new Entity("data", "radio");
+$data_list = $data_db->populate();
+$data = $data_list[count($data_list)-1]["data"];
+
+// If not data return no data
+if (!isset($data)) {
+    echo "No data";
 }
 
-?>
+// If data_id set display data else just populate $data variable
+if (isset($_["data_id"])) {
+    echo $data;
+}

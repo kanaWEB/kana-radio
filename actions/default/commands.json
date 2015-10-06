@@ -1,6 +1,6 @@
 {
 	"default": {
-		"command": "/opt/piget/radio/radioSend",
+		"command": "/do/radio/send",
 		"usage" : "RCsend gpio(WiringPi) code",
 		"args": {
 			"code": {

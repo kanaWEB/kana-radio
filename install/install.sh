@@ -1,5 +1,4 @@
 #For serial
 usermod -a -G dialout www-data
-/opt/piget/core/install/extendPath
-downloadModule radio
-
+/system/downloadModule radio
+/do/nginx/authorize /do/radio/send
