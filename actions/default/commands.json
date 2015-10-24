@@ -1,7 +1,6 @@
 {
 	"default": {
 		"command": "/do/radio/send",
-		"usage" : "RCsend gpio(WiringPi) code",
 		"args": {
 			"code": {
 				"type": "Code"
