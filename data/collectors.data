@@ -2,8 +2,6 @@
 //You can add collectors here
 unset($data);
 $data[] = [
-	"text" => "Serial",
-	"value" => "serial"
+    "text" => "Serial",
+    "value" => "serial"
 ];
-
-?>

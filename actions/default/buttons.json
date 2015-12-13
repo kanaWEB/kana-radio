@@ -12,6 +12,7 @@
 	},
 	{
 		"name" : "Turn off",
+		"command" : "default",
 		"color" : "danger",
 		"icon" : "glyphicon-off",
 		"state" : 0,
